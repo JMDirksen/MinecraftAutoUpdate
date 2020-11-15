@@ -38,7 +38,7 @@ function Main {
 		# Backup
 		Write-Log "Creating ShadowCopy"
 		$drive = (Get-Item -Path $minecraftServerDir).PSDrive.Root
-		(Get-WmiObject -List Win32_ShadowCopy).Create($drive, "ClientAccessible")
+		(Get-WmiObject -List Win32_ShadowCopy).Create($drive, "ClientAccessible") | Out-Null
 
 		# Update
 		Write-Log "Updating server.jar"
