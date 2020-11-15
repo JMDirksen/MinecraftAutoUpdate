@@ -1,5 +1,7 @@
 ﻿# Include config
-. "$PSScriptRoot\AutoUpdate.config.ps1"
+$configFile = "$PSScriptRoot\AutoUpdate.config.ps1"
+if (Test-Path $configFile) { . $configFile }
+else { "Config file AutoUpdate.config.ps1 not found"; exit }
 
 # Mojang urls
 $versionsJsonUrl = "https://launchermeta.mojang.com/mc/game/version_manifest.json"
@@ -33,7 +35,7 @@ function Main {
 
 		# Stop server
 		Write-Log "Stopping server"
-		Stop-ScheduledTask -TaskName $taskName
+		Stop-ScheduledTask -TaskName $taskName -ErrorAction Stop
 
 		# Backup
 		Write-Log "Creating ShadowCopy"
@@ -46,7 +48,7 @@ function Main {
 		
 		# Start server
 		Write-Log "Starting server"
-		Start-ScheduledTask -TaskName $taskName
+		Start-ScheduledTask -TaskName $taskName -ErrorAction Stop
 		
 		# Send e-mail
 		Write-Log "Sending E-mail"
