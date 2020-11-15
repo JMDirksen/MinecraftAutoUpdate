@@ -22,12 +22,12 @@ function Main {
 		}
 
 		# Get download URL
-		$versionsJsonVersion = $versionsJson.versions | Where-Object {$_.id -eq $version}
-        $versionJsonUrl = $versionsJsonVersion.url
-        $versionJson = Invoke-RestMethod $versionJsonUrl
-        $downloadUrl = $versionJson.downloads.server.url
+		$versionsJsonVersion = $versionsJson.versions | Where-Object { $_.id -eq $version }
+		$versionJsonUrl = $versionsJsonVersion.url
+		$versionJson = Invoke-RestMethod $versionJsonUrl
+		$downloadUrl = $versionJson.downloads.server.url
 
-        # Download
+		# Download
 		Write-Log "Downloading $fileName"
 		Invoke-WebRequest $downloadUrl -OutFile $fileName
 
@@ -36,7 +36,7 @@ function Main {
 		Stop-ScheduledTask -TaskName $taskName
 
 		# Backup
-        $timestamp = Get-Date -Format o | foreach {$_ -replace ":","."}
+		$timestamp = Get-Date -Format o | ForEach-Object { $_ -replace ":", "." }
 		$archive = $PSScriptRoot + "\backup-pre-" + $version + "-update-" + $timestamp + ".zip"
 		Write-Log "Creating backup $archive"
 		Compress-Archive -Path $minecraftServerDir -DestinationPath $archive -Force
@@ -66,9 +66,9 @@ function Main {
 }
 
 function Write-Log {
-    $date = (Get-Date).ToShortDateString()
-    $time = (Get-Date).ToShortTimeString()
-    Add-Content $logFile "$date $time $($args[0])"
+	$date = (Get-Date).ToShortDateString()
+	$time = (Get-Date).ToShortTimeString()
+	Add-Content $logFile "$date $time $($args[0])"
 }
 
 Main
