@@ -36,10 +36,9 @@ function Main {
 		Stop-ScheduledTask -TaskName $taskName
 
 		# Backup
-		$timestamp = Get-Date -Format o | ForEach-Object { $_ -replace ":", "." }
-		$archive = $PSScriptRoot + "\backup-pre-" + $version + "-update-" + $timestamp + ".zip"
-		Write-Log "Creating backup $archive"
-		Compress-Archive -Path $minecraftServerDir -DestinationPath $archive -Force
+		Write-Log "Creating ShadowCopy"
+		$drive = (Get-Item -Path $minecraftServerDir).PSDrive.Root
+		(Get-WmiObject -List Win32_ShadowCopy).Create($drive, "ClientAccessible")
 
 		# Update
 		Write-Log "Updating server.jar"
