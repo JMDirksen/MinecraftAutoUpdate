@@ -67,7 +67,7 @@ function Main {
 }
 
 function Write-Log {
-	Add-Content $logFile ("{0} {1} {2}" -f (Get-Date).ToShortDateString(), (Get-Date).ToLongTimeString(), $($args[0]))
+	Add-Content $logFile ("{0} {1} {2}" -f (Get-Date).ToShortDateString(), (Get-Date).ToLongTimeString(), $args[0])
 }
 
 Main
